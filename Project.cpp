@@ -15,6 +15,7 @@ int i;
 int j;
 
 objPos food;
+GameMechs *game; 
 
 void Initialize(void);
 void GetInput(void);
@@ -30,7 +31,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(game.getExitFlagStatus())  
     {
         GetInput();
         RunLogic();
@@ -47,12 +48,20 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
+    game.GameMechs();
 
-    exitFlag = false;
+
 }
 
 void GetInput(void)
 {
+    if (MacUILib_hasChar()!=0){
+        // Tells our logic function that there IS an input
+        game.setInput(MacUILib_getChar());//Records the input
+    }
+    else{
+        game.clearInput();// Resets the input after every loop if no input was detected.
+    }  
    
 }
 

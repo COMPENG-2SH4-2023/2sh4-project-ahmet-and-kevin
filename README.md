@@ -7,6 +7,12 @@ You must watch the briefing video and read through the manual to engage in the d
 
 Section: [LO7]
 
-MacID: [ yuk51]
+MacID: [yuk51]
 
-StudentID: [400458686 ]
+StudentID: [400458686]
+
+Section: [LO5]
+
+MacID: [asana]
+
+StudentID: [400470532]
