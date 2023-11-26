@@ -29,32 +29,42 @@ void Player::getPlayerPos(objPos &returnPos)
 void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef->getInput(); 
+
     switch(input)
     {
         case 'w':
-            if (myDir != UP || myDir != DOWN){
+            if (myDir != DOWN){
                     myDir = UP;
+                break;
+            } else {
                 break;
             }
     
         case 'a':
-            if (myDir != LEFT || myDir != RIGHT){
+            if (myDir != RIGHT){
                     myDir = LEFT;
+                break;
+            } else {
                 break;
             }
 
         case 's':
-            if (myDir != UP|| myDir != DOWN){
+            if (myDir != UP){
                     myDir = DOWN;
+                break;
+            } else {
                 break;
             }
         
 
         case 'd':
-            if (myDir != LEFT || myDir != RIGHT){
+            if (myDir != LEFT){
                     myDir = RIGHT;
                 break;
+            } else {
+                break;
             }
+        input = 0;
     }
     
     // PPA3 input processing logic        
@@ -80,6 +90,20 @@ void Player::movePlayer()
             break;
         default:
             break;
+    }
+
+    if (playerPos.x < 1){
+        playerPos.x = (mainGameMechsRef->getBoardSizeX() - 2);
+    }
+    if (playerPos.x >= (mainGameMechsRef->getBoardSizeX() - 1)){
+        playerPos.x = 1;
+    }
+    if (playerPos.y >= (mainGameMechsRef->getBoardSizeY() - 1)){
+        playerPos.y = 1;
+    }
+
+    if (playerPos.y < 1){
+        playerPos.y = mainGameMechsRef->getBoardSizeY() - 2;
     }
 }
 

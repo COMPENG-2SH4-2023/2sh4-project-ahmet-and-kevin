@@ -27,6 +27,9 @@ GameMechs::GameMechs(int boardX, int boardY)
 //Getter Definitionst
 bool GameMechs::getExitFlagStatus()
 {
+    if(input == 27){
+        exitFlag = true;
+    }
     return exitFlag;
 }
 
@@ -65,7 +68,7 @@ int GameMechs::getScore(){
 
 void GameMechs::setExitTrue()
 {
-    exitFlag=true;
+    exitFlag = true;
 }
 
 void GameMechs::setLoseFlag()

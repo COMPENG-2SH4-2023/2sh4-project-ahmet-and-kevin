@@ -11,15 +11,10 @@ using namespace std;
 #define ROWS 15
 #define COLS 30
 
-bool exitFlag;
-char board[ROWS][COLS];
-int i;
-int j;
-
 objPos food;
+
 GameMechs *myGM; 
 Player *myPlayer;
-
 
 void Initialize(void);
 void GetInput(void);
@@ -59,21 +54,39 @@ void Initialize(void)
 
 void GetInput(void)
 {
-
+    // yo since updatePlayerDir calls getInput alr, 
+    // calling it here would cause double input 
+    // so thats why this is section is empty 
 }
 
 void RunLogic(void)
 {
-    myPlayer->updatePlayerDir(); // Gets input already
+    myPlayer->updatePlayerDir(); 
+    myPlayer->movePlayer();
+    
+    myGM->getExitFlagStatus();
+    myGM->clearInput();
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen();   
+    int i;
+    int j;
+    char board[ROWS][COLS];
+    objPos tempPos;
+    myPlayer->getPlayerPos(tempPos);
+    
+
     for (i = 0; i < ROWS; i++){
         for(j = 0; j < COLS; j++){
             if(i == 0 || i == (ROWS - 1) || j == 0 || j == (COLS - 1)){
                 board[i][j] = '#';
+            }
+            else if ((tempPos.x % (COLS - 1)) == j && (tempPos.y % (ROWS - 1)) == i)
+            {
+
+                board[i][j] = tempPos.symbol;
             }
             else
             {
@@ -81,11 +94,6 @@ void DrawScreen(void)
             }
         }
     }
-
-    food.setObjPos(5, 5, 'a');
-    food.getObjPos(food);
-    board[food.x][food.y] = food.getSymbol(); // sets locations of all letters
-    
 
     for(i = 0; i < ROWS; i++){ 
         for(j = 0; j < COLS; j++){
@@ -95,12 +103,10 @@ void DrawScreen(void)
         MacUILib_printf("\n");
     }
 
-    objPos tempPos;
-    myPlayer->getPlayerPos(tempPos);
-
     MacUILib_printf("BoardSize: %dx%d, Player Pos: <%d, %d> + %c\n", myGM->getBoardSizeX(), 
                                                                     myGM->getBoardSizeY(),
                                                                     tempPos.x, tempPos.y, tempPos.symbol );
+     MacUILib_printf("Press ESC to quit");
 }
 
 void LoopDelay(void)
@@ -114,4 +120,8 @@ void CleanUp(void)
     MacUILib_clearScreen();    
   
     MacUILib_uninit();
+
+    // remove heap instance 
+    delete myGM;
+    delete myPlayer;
 }
