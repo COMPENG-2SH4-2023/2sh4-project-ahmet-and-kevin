@@ -1,13 +1,15 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
+#include "Player.h"
 
 
 using namespace std;
 
 #define DELAY_CONST 100000
-#define ROWS 10
-#define COLS 20
+#define ROWS 15
+#define COLS 30
 
 bool exitFlag;
 char board[ROWS][COLS];
@@ -15,7 +17,9 @@ int i;
 int j;
 
 objPos food;
-GameMechs *game; 
+GameMechs *myGM; 
+Player *myPlayer;
+
 
 void Initialize(void);
 void GetInput(void);
@@ -31,7 +35,7 @@ int main(void)
 
     Initialize();
 
-    while(game.getExitFlagStatus())  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -48,26 +52,19 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    game.GameMechs();
 
-
+    myGM = new GameMechs(30, 15);
+    myPlayer = new Player(myGM);
 }
 
 void GetInput(void)
 {
-    if (MacUILib_hasChar()!=0){
-        // Tells our logic function that there IS an input
-        game.setInput(MacUILib_getChar());//Records the input
-    }
-    else{
-        game.clearInput();// Resets the input after every loop if no input was detected.
-    }  
-   
+
 }
 
 void RunLogic(void)
 {
-    
+    myPlayer->updatePlayerDir(); // Gets input already
 }
 
 void DrawScreen(void)
@@ -98,6 +95,12 @@ void DrawScreen(void)
         MacUILib_printf("\n");
     }
 
+    objPos tempPos;
+    myPlayer->getPlayerPos(tempPos);
+
+    MacUILib_printf("BoardSize: %dx%d, Player Pos: <%d, %d> + %c\n", myGM->getBoardSizeX(), 
+                                                                    myGM->getBoardSizeY(),
+                                                                    tempPos.x, tempPos.y, tempPos.symbol );
 }
 
 void LoopDelay(void)
