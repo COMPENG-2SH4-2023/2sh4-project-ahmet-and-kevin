@@ -12,6 +12,7 @@ using namespace std;
 #define COLS 30
 
 objPos food;
+objPos tempPos;
 
 GameMechs *myGM; 
 Player *myPlayer;
@@ -47,9 +48,15 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
+    srand(time(NULL));
 
     myGM = new GameMechs(30, 15);
     myPlayer = new Player(myGM);
+
+    myPlayer->getPlayerPos(tempPos);
+    myGM->generateFood(tempPos);
+    myGM->getFoodPos(food);
+
 }
 
 void GetInput(void)
@@ -63,7 +70,10 @@ void RunLogic(void)
 {
     myPlayer->updatePlayerDir(); 
     myPlayer->movePlayer();
+
+
     
+
     myGM->getExitFlagStatus();
     myGM->clearInput();
 }
@@ -74,9 +84,8 @@ void DrawScreen(void)
     int i;
     int j;
     char board[ROWS][COLS];
-    objPos tempPos;
     myPlayer->getPlayerPos(tempPos);
-    
+
 
     for (i = 0; i < ROWS; i++){
         for(j = 0; j < COLS; j++){
@@ -95,6 +104,9 @@ void DrawScreen(void)
         }
     }
 
+    board[food.x][food.y] = food.symbol; 
+
+
     for(i = 0; i < ROWS; i++){ 
         for(j = 0; j < COLS; j++){
             MacUILib_printf("%c", board[i][j]);
@@ -107,6 +119,7 @@ void DrawScreen(void)
                                                                     myGM->getBoardSizeY(),
                                                                     tempPos.x, tempPos.y, tempPos.symbol );
      MacUILib_printf("Press ESC to quit");
+     MacUILib_printf("food.x: %d, food.y: %d", food.x, food.y);
 }
 
 void LoopDelay(void)
