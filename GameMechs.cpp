@@ -13,18 +13,19 @@ GameMechs::GameMechs()
     boardSizeX = 30;
     boardSizeY = 15;
 
-    foodPos.setObjPos(-1, -1, 'p'); // Initialize foodPos outside game board
+    foodPos.setObjPos(-1, -1, 'o'); // Initialize foodPos outside game board
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
-    boardSizeX=boardX;
-    boardSizeY=boardY;
-    exitFlag=false;
-    input=0;
-    loseFlag=false;
+    boardSizeX = boardX;
+    boardSizeY = boardY;
+    exitFlag = false;
+    input = 0;
+    score = 0;
+    loseFlag = false;
 
-    foodPos.setObjPos(-1, -1, 'p'); // Initialize foodPos outside game board
+    foodPos.setObjPos(-1, -1, 'o'); // Initialize foodPos outside game board
 
 }
 
@@ -74,11 +75,13 @@ int GameMechs::getScore(){
 
 void GameMechs::setExitTrue()
 {
+    
     exitFlag = true;
 }
 
 void GameMechs::setLoseFlag()
 {
+    
     loseFlag=true;
 }
 
@@ -96,22 +99,39 @@ void GameMechs::incrementScore(){
     score++;
 }
 
-void GameMechs::generateFood(objPos blockOff){
+void GameMechs::generateFood(objPosArrayList* blockOff){
     // generate random x and y coord and make sure they are not boarder or blockOff
-
+    srand(time(NULL));
     // check x and y against 0 and boardSizeX and Y
 
     // remember, in objpos class you have an isPosEqual() method
     // Use this instead of comparing element by element
-    while(true){
-        int rowsRand = 1 + rand() % (boardSizeY - 2);
-        int colsRand = 1 + rand() % (boardSizeX - 2);
+    
+    int repeat = 1;
+    while (repeat == 1)
+    {
+        int yRand = 1 + rand() % (boardSizeY - 2);
+        int xRand = 1 + rand() % (boardSizeX - 2);
 
-        if(blockOff.isPosEqual(&foodPos) == false){
-            foodPos.setObjPos(rowsRand, colsRand, foodPos.symbol);
-            break;
+        for(int i = 0; i < blockOff->getSize(); i++)
+        {
+            objPos tempBody;
+            blockOff->getElement(tempBody, i);
+
+            if(tempBody.x == xRand && tempBody.y == yRand)
+            {
+                repeat = 1; 
+                break;
+
+            } else {
+                foodPos.setObjPos(xRand, yRand, foodPos.symbol);
+                repeat = 0;
+            }
         }
     }
+    
+    
+
 }
 
 void GameMechs::getFoodPos(objPos &returnPos){
