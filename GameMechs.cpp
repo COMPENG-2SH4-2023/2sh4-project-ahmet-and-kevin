@@ -13,7 +13,7 @@ GameMechs::GameMechs()
     boardSizeX = 30;
     boardSizeY = 15;
 
-    foodPos.setObjPos(-1, -1, 'o'); // Initialize foodPos outside game board
+    //foodPos.setObjPos(-1, -1, 'o'); // Initialize foodPos outside game board
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -25,7 +25,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     score = 0;
     loseFlag = false;
 
-    foodPos.setObjPos(-1, -1, 'o'); // Initialize foodPos outside game board
+    //foodPos.setObjPos(-1, -1, 'o'); // Initialize foodPos outside game board
 
 }
 
@@ -99,7 +99,9 @@ void GameMechs::incrementScore(){
     score++;
 }
 
+/*
 void GameMechs::generateFood(objPosArrayList* blockOff){
+    
     // generate random x and y coord and make sure they are not boarder or blockOff
     srand(time(NULL));
     // check x and y against 0 and boardSizeX and Y
@@ -140,3 +142,4 @@ void GameMechs::getFoodPos(objPos &returnPos){
 
 
 
+*/

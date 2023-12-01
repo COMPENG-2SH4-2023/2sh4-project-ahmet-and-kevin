@@ -1,9 +1,10 @@
 #include "Player.h"
 
 
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* FoodRef)
 {
     mainGameMechsRef = thisGMRef;
+    mainFoodRef = FoodRef;
     myDir = STOP;
 
     // more actions to be included
@@ -126,9 +127,10 @@ bool Player::checkFoodConsumption()
     playerPosList->getElement(tempBody, 0);
 
     objPos tempFood;
-    mainGameMechsRef->getFoodPos(tempFood);
+    mainFoodRef->getFoodPos(tempFood);
+    
 
-    if(tempBody.x == tempFood.x && tempBody.y == tempFood.y){
+    if(tempBody.isPosEqual(&tempFood)){
         return true;
     } else {
         return false;
@@ -138,9 +140,9 @@ bool Player::checkFoodConsumption()
 
 void Player::increasePlayerLength()
 {
-    objPos tempBody;
-    playerPosList->getHeadElement(tempBody);
-    playerPosList->insertHead(tempBody);
+    objPos tempHead;
+    playerPosList->getHeadElement(tempHead);
+    playerPosList->insertHead(tempHead);
 }
 
 bool Player::checkSelfCollision()
@@ -151,11 +153,11 @@ bool Player::checkSelfCollision()
     for(int i = 1; i < playerPosList->getSize(); i++)
     {
         playerPosList->getElement(tempBody, i + i);
-        if(tempBody.x == tempHead.x && tempBody.y == tempHead.y)
+        if(tempHead.isPosEqual(&tempBody))
         {
             return true;
         }
     }
-
+    
     return false;
 }

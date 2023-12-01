@@ -4,15 +4,20 @@
 #include "objPosArrayList.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "Food.h"
+
 
 
 using namespace std;
 
-#define DELAY_CONST 100000
+// changed delay to 10000 from 100000
+#define DELAY_CONST 1000000
 
 
 GameMechs *myGM; 
 Player *myPlayer;
+Food *myFood;
+
 
 
 
@@ -49,20 +54,19 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     myGM = new GameMechs(30, 15);
-    myPlayer = new Player(myGM);
+    myFood = new Food(myGM);
+    myPlayer = new Player(myGM, myFood);
 
     // this is a makeshift setup so i dont have to touch generate item yet
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    myGM->generateFood(playerBody);
-
+    //myGM->generateFood(playerBody);
+    myFood->generateFood(playerBody);
 
 }
 
 void GetInput(void)
 {
-    // yo since updatePlayerDir calls getInput alr, 
-    // calling it here would cause double input 
-    // so thats why this is section is empty 
+
 }
 
 void RunLogic(void)
@@ -70,14 +74,13 @@ void RunLogic(void)
     myPlayer->updatePlayerDir(); 
     myPlayer->movePlayer();
 
-    myGM->getExitFlagStatus();
-    myGM->clearInput();
-
     if(myPlayer->checkFoodConsumption() == true){
         myPlayer->increasePlayerLength();
         myGM->incrementScore();
         objPosArrayList* playerBody = myPlayer->getPlayerPos();
-        myGM->generateFood(playerBody);
+        //myGM->generateFood(playerBody);
+        myFood->generateFood(playerBody);
+
 
     }
 
@@ -87,6 +90,9 @@ void RunLogic(void)
         myGM->setExitTrue();
 
     }
+
+    myGM->getExitFlagStatus();
+    myGM->clearInput();
 }
 
 void DrawScreen(void)
@@ -98,7 +104,10 @@ void DrawScreen(void)
     objPos tempBody;
 
     objPos tempFoodPos;
-    myGM->getFoodPos(tempFoodPos);
+    //myGM->getFoodPos(tempFoodPos);
+    //myFood->generateFood(playerBody);
+    myFood->getFoodPos(tempFoodPos);
+
 
     for (int i = 0; i < myGM->getBoardSizeY(); i++)
     {
@@ -173,7 +182,6 @@ void CleanUp(void)
 
     MacUILib_uninit();
 
-    
     // remove heap instance 
     delete myGM;
     delete myPlayer;

@@ -19,7 +19,7 @@ class GameMechs
     // You will include more data members and member functions to complete your design.
 
     private:
-        objPos foodPos;
+        //objPos foodPos;
         char input;
         bool exitFlag;
         bool loseFlag;
@@ -54,11 +54,11 @@ class GameMechs
         // need to accept the player body array list
         // go through each array list element to make sure they are 
         // blocked off from random food location
-
+/*
         void generateFood(objPosArrayList* blockOff); // upgrade this somehow
         void getFoodPos(objPos &returnPos);
         
-
+*/
 };
 
 #endif
