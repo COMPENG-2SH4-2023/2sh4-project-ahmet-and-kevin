@@ -3,7 +3,6 @@
 
 #include <cstdlib>
 #include <time.h>
-
 #include "objPos.h"
 #include "objPosArrayList.h"
 #include "GameMechs.h"
@@ -15,10 +14,18 @@ class Food
     private:
         objPos foodPos;
         GameMechs* MechsRef;
+        objPosArrayList* foodBucket;
+        int foodIndex;
  
     public:
         Food(GameMechs* thisGMRef);
+        ~Food();
+
+        void setFoodIndex(int l);
+        int getFoodIndex();
+
         void generateFood(objPosArrayList* blockOff); // upgrade this somehow
-        void getFoodPos(objPos &returnPos);   
+        objPosArrayList* getFoodBucket(); 
+        
 };
 #endif

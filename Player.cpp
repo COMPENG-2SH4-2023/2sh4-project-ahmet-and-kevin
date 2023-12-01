@@ -16,7 +16,6 @@ Player::Player(GameMechs* thisGMRef, Food* FoodRef)
 
 }
 
-
 Player::~Player()
 {
     // delete any heap members here
@@ -122,19 +121,26 @@ void Player::movePlayer()
 
 bool Player::checkFoodConsumption()
 {
-    
-    objPos tempBody;
-    playerPosList->getElement(tempBody, 0);
-
+    objPos tempHead;
     objPos tempFood;
-    mainFoodRef->getFoodPos(tempFood);
-    
 
-    if(tempBody.isPosEqual(&tempFood)){
-        return true;
-    } else {
-        return false;
+    objPosArrayList* foodBucket = mainFoodRef->getFoodBucket();
+    playerPosList->getHeadElement(tempHead);
+
+    for(int l = 0; l < foodBucket->getSize(); l++)
+    {
+        foodBucket->getElement(tempFood, l);
+        if(tempFood.isPosEqual(&tempHead))
+        {
+            for(int g = 0; g < 5; g++)
+            {
+                foodBucket->removeTail();
+            }
+            mainFoodRef->setFoodIndex(l);
+            return true;
+        }
     }
+    return false;
 
 }
 
@@ -152,7 +158,7 @@ bool Player::checkSelfCollision()
     playerPosList->getHeadElement(tempHead);
     for(int i = 1; i < playerPosList->getSize(); i++)
     {
-        playerPosList->getElement(tempBody, i + i);
+        playerPosList->getElement(tempBody, i+1);
         if(tempHead.isPosEqual(&tempBody))
         {
             return true;
