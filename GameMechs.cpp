@@ -38,12 +38,7 @@ bool GameMechs::getLoseFlagStatus(){
 }
 
 char GameMechs::getInput()
-{
-    if(MacUILib_hasChar()){
-        input = MacUILib_getChar();
-    }else{
-        clearInput();// Resets the input after every loop if no input was detected.
-    }  
+{ 
     return input;
 }
 
@@ -77,9 +72,13 @@ void GameMechs::setLoseFlag()
     loseFlag=true;
 }
 
-void GameMechs::setInput(char this_input)
+void GameMechs::setInput()
 {
-    input=this_input;
+    if(MacUILib_hasChar()){
+        input = MacUILib_getChar();
+    }else{
+        clearInput();// Resets the input after every loop if no input was detected.
+    } 
 }
 
 void GameMechs::clearInput()

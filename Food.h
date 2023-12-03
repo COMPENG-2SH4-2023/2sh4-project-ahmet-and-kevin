@@ -1,6 +1,7 @@
 #ifndef FOOD_H
 #define FOOD_H
-
+// This header file declares the class that creates the 
+// objects on the screen that can interact or be eaten by our snake
 #include <cstdlib>
 #include <time.h>
 #include "objPos.h"
@@ -15,7 +16,7 @@ class Food
         objPos foodPos;
         GameMechs* MechsRef;
         objPosArrayList* foodBucket;
-        int foodIndex;
+        int foodIndex; // dictates which food to spawn depending on index 
  
     public:
         Food(GameMechs* thisGMRef);
@@ -24,7 +25,7 @@ class Food
         void setFoodIndex(int l);
         int getFoodIndex();
 
-        void generateFood(objPosArrayList* blockOff); // upgrade this somehow
+        void generateFood(objPosArrayList* blockOff); 
         objPosArrayList* getFoodBucket(); 
         
 };

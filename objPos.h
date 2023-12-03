@@ -1,3 +1,4 @@
+// This is the class that creates any symbol and dictates its position on the board
 #ifndef OBJPOS_H
 #define OBJPOS_H
 

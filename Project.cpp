@@ -51,12 +51,13 @@ void Initialize(void)
 
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     objPosArrayList* foodBucket = myFood->getFoodBucket();
-    myFood->generateFood(playerBody); 
-}
 
+    myFood->generateFood(playerBody); // initalizes food 
+}
 void GetInput(void)
 {
     // MovePlayer gets input already
+    myGM->setInput();
 }
 
 void RunLogic(void)
@@ -64,7 +65,7 @@ void RunLogic(void)
     myPlayer->updatePlayerDir(); 
     myPlayer->movePlayer(); 
 
-    if(myPlayer->checkSelfCollision() == true)
+    if(myPlayer->checkSelfCollision() == true) 
     {
         myGM->setLoseFlag();
         myGM->setExitTrue();
@@ -98,10 +99,11 @@ void RunLogic(void)
         }
 
         objPosArrayList* playerBody = myPlayer->getPlayerPos();
-        myFood->generateFood(playerBody);
+        myFood->generateFood(playerBody); // if food is picked up, all food is regenerated
     }
 
-    myGM->getExitFlagStatus();
+    myGM->getExitFlagStatus(); // checks if input is exit key
+                                // if so, exit the code
     myGM->clearInput();
 }
 
@@ -166,7 +168,7 @@ void DrawScreen(void)
 
     MacUILib_printf("Press ESC to quit\n");
     MacUILib_printf("Normal Food = 'o': +1 score, +1 length \n");
-    MacUILib_printf("Mystery Food: +10 score, +0 length OR +5 score, +5 length \n");
+    MacUILib_printf("Mystery Food = not 'o': (+10 score, +0 length) OR (+5 score, +5 length) \n");
     MacUILib_printf("Score: %d\n", myGM->getScore());
     
 }
@@ -185,7 +187,6 @@ void CleanUp(void)
         MacUILib_printf("You Lose! You ate yourself! \n");
     } else {
         MacUILib_printf("You Quit! You left the game! \n");
-
     }
 
     MacUILib_uninit();

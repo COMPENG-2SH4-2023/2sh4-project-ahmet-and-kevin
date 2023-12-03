@@ -1,8 +1,9 @@
+// This is the class to create a list and modify it (eg the snake increasing its length, adding more food)
+
 #ifndef OBJPOS_ARRAYLIST_H
 #define OBJPOS_ARRAYLIST_H
 
 #define ARRAY_MAX_CAP 200
-
 #include "objPos.h"
 
 class objPosArrayList

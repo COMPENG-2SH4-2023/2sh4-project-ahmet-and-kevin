@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 Player::Player(GameMechs* thisGMRef, Food* FoodRef)
 {
     mainGameMechsRef = thisGMRef;
@@ -35,7 +34,7 @@ void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef->getInput(); 
 
-    switch(input)
+    switch(input) // changes player direction based on input
     {
         case 'w':
             if (myDir != DOWN){
@@ -127,16 +126,17 @@ bool Player::checkFoodConsumption()
     objPosArrayList* foodBucket = mainFoodRef->getFoodBucket();
     playerPosList->getHeadElement(tempHead);
 
-    for(int l = 0; l < foodBucket->getSize(); l++)
+    for(int l = 0; l < foodBucket->getSize(); l++) // checks all food positions.
+                                                    // if any food position matches player head position, return true 
     {
         foodBucket->getElement(tempFood, l);
         if(tempFood.isPosEqual(&tempHead))
         {
-            for(int g = 0; g < 5; g++)
+            for(int g = 0; g < 5; g++) // empties food bucket
             {
                 foodBucket->removeTail();
             }
-            mainFoodRef->setFoodIndex(l);
+            mainFoodRef->setFoodIndex(l); // determines which type of food the player hit
             return true;
         }
     }
